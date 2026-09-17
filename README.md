@@ -18,37 +18,42 @@ Das Script `start_kanata.sh` startet Kanata mit der Konfigurationsdatei `configs
 ## Konfigurationsübersicht
 
 ### Basis-Layout (QWERTZ)
+
 - Deutsche Umlaute: `ä`, `ü`, `ö`, `ß` als Hold-Keys
 - Standard QWERTZ-Belegung mit erweiterten Funktionen
 
 ### Tap-Hold-Modifikationen
+
 | Taste | Tap | Hold |
-|-------|-----|------|
-| `a` | `a` | `ä` |
-| `u` | `u` | `ü` |
-| `o` | `o` | `ö` |
-| `s` | `s` | `ß` |
-| `)` | `(` | `)` |
-| `]` | `{` | `}` |
-| `[` | `[` | `]` |
-| `,` | `<` | `>` |
-| `-` | `-` | `+` |
-| `'` | `'` | `"` |
-| `;` | `:` | `;` |
-| `4` | `$` | `$` |
+| ----- | --- | ---- |
+| `a`   | `a` | `ä`  |
+| `u`   | `u` | `ü`  |
+| `o`   | `o` | `ö`  |
+| `s`   | `s` | `ß`  |
+| `)`   | `(` | `)`  |
+| `]`   | `{` | `}`  |
+| `[`   | `[` | `]`  |
+| `,`   | `<` | `>`  |
+| `-`   | `-` | `+`  |
+| `'`   | `'` | `"`  |
+| `;`   | `:` | `;`  |
+| `4`   | `$` | `$`  |
 
 ### Neo2-Layer 3 (aktivierbar)
+
 - Navigation: `Home`, `End`, `Pfeiltasten`
 - Bearbeitung: `Del`, `Backspace`, `Cut`, `Copy`, `Paste`
 - Sonderzeichen: `=`, `/`, `-`
 
 ### Chords (Tastenkombinationen)
+
 - `J + K + L` → `Enter`
 - `U + I + O` → `Tab`
 
 ## Installation
 
 ### Voraussetzungen
+
 - Linux (x64)
 - Kanata v1.10.1 oder höher
 - Root-Rechte (für Tastatur-Intercept)
@@ -71,16 +76,19 @@ chmod +x start_kanata.sh
 ## Verwendung
 
 ### Starten
+
 ```bash
 ./start_kanata.sh
 ```
 
 ### Stoppen
+
 ```bash
 sudo pkill kanata
 ```
 
 ### Logs anzeigen
+
 ```bash
 tail -f /var/log/kanata.log
 ```
@@ -98,13 +106,16 @@ stevolution/
 ## Technische Details
 
 ### Kanata-Konzept
+
 Kanata interceptiert Tastendrücke auf Low-Level und ermöglicht:
+
 - **Tap-Hold**: Schnelles Tippen vs. Modifikator-Halten
 - **Layers**: Verschiedene Belegungen pro Taste
 - **Chords**: Mehrfachbelegungen durch gleichzeitiges Drücken
 - **Unicode**: Direkte Eingabe von Sonderzeichen
 
 ### Konfigurationsparameter
+
 - `tap_time`: 200ms (Zeit für Tap vs. Hold)
 - `hold_time`: 200ms
 - `combo_time`: 60ms (Chord-Timing)
@@ -117,4 +128,4 @@ Kanata interceptiert Tastendrücke auf Low-Level und ermöglicht:
 
 ## Lizenz
 
-Dieses Projekt steht unter der MIT-Lizenz.
+N/A
