@@ -1,0 +1,102 @@
+;; Comments are prefixed by double-semicolon. A single semicolon is parsed as the
+;; keyboard key. Comments are ignored for the configuration file.
+;;
+;; This configuration language is Lisp-like. If you're unfamiliar with Lisp,
+;; don't be alarmed. The maintainer jtroo is also unfamiliar with Lisp. You
+;; don't need to know Lisp in-depth to be able to configure kanata.
+;;
+;; If you follow along with the examples, you should be fine. Kanata should
+;; also hopefully have helpful error messages in case something goes wrong.
+;; If you need help, you are welcome to ask.
+
+
+(defcfg
+  concurrent-tap-hold yes ;; damit cmobos funktionieren
+  process-unmapped-keys yes
+)
+
+;; variables
+(defvar
+tap_time 200
+hold_time 200
+combo_time 60
+
+ä (unicode ä)
+ü (unicode ü)
+ö (unicode ö)
+ß (unicode ß)
+)
+
+;; tap-hold(tap-zeit, hold-zeit, tab-action, hold-action)
+(defalias
+_a (tap-hold $tap_time $tap_time a $ä)
+_u (tap-hold $tap_time $tap_time u $ü)
+_o (tap-hold $tap_time $tap_time o $ö)
+_s (tap-hold $tap_time $tap_time s $ß)
+
+_pr (tap-hold $tap_time $tap_time S-9 S-0) ;;()
+_cb (tap-hold $tap_time $tap_time S-[ S-]) ;;{}
+_cp (tap-hold $tap_time $tap_time [ ]) ;;[]
+_gt (tap-hold $tap_time $tap_time S-, S-.) ;;< >
+_mp (tap-hold $tap_time $tap_time - S-=) ;;- +
+_sq (tap-hold $tap_time $tap_time ' (unicode r#"""#) ) ;;' "
+_co (tap-hold $tap_time $tap_time S-; ; ) ;;: ;
+_ds (tap-hold $tap_time $tap_time S-4 S-4 ) ;; $ $
+
+layer3 (layer-while-held neo2_layer_3)
+)
+
+;; Only one defsrc is allowed.
+;;
+;; defsrc defines the keys that will be intercepted by kanata. The order of the
+;; keys matches with deflayer declarations and all deflayer declarations must
+;; have the same number of keys as defsrc. Any keys not listed in defsrc will
+;; be passed straight to the operating system.
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+;; The first layer defined is the layer that will be active by default when
+;; kanata starts up. This layer is the standard QWERTY layout
+(deflayer qwerty
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    @_u    i    @_o    p    [    ]    \
+  @layer3 @_a    @_s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            @layer3 rmet rctl
+)
+
+(deflayer neo2_layer_3
+  _  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _  C-bspc    bspc    up    del    _    S-3    @_pr    @_cb    @_cp    @_gt    _    _    _
+  _ home    left    down    right    end    S-/    =    @_sq    @_mp    @_co    _  _
+  _ _    _    _    _    _    @_ds    _    _    _    _    _
+  _ _ _           S--            _ _ _
+)
+;;(unicode _)
+(deflayer leere_vorlage
+  _  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _ _    _    _    _    _    _    _    _    _    _    _    _
+  _ _    _    _    _    _    _    _    _    _    _    _
+  _ _ _           _            _ _ _
+)
+
+(deflayer deaktivierte_vorlage
+  XX  XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX
+  XX  XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX
+  XX XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX
+  XX XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX
+  XX XX XX           XX            XX XX XX
+)
+
+;; (participating-keys1) action1 timeout1 release-behaviour1 (disabled-layers1)
+(defchordsv2
+(j k l) ret $combo_time first-release ()
+(u i o) tab $combo_time first-release ()
+;;(u i o) bspc $combo_time first-release ()
+)
