@@ -2,8 +2,9 @@
 
 ![Kanata](https://img.shields.io/badge/Kanata-v1.12.0-blue)
 ![Linux](https://img.shields.io/badge/OS-Linux-green)
+![Windows](https://img.shields.io/badge/OS-Windows-blue)
 
-Dieses Repository enthält eine benutzerdefinierte Tastaturbelegung für **Kanata** – einen leistungsstarken Key-Mapper für Linux.
+Dieses Repository enthält benutzerdefinierte Tastaturbelegungen für **Kanata** – einen leistungsstarken Key-Mapper für Linux und Windows.
 
 ## Was macht dieses Skript?
 
@@ -14,6 +15,13 @@ Das Script `start_kanata.sh` startet Kanata mit der Konfigurationsdatei `configs
 3. **Konfiguriert Tap-Hold-Modifikationen** für effizientes Tippen
 4. **Aktiviert einen Neo2-Layer** mit Navigationstasten
 5. **Protokolliert alle Aktivitäten** nach `/var/log/kanata.log`
+
+## Dateien
+
+| Datei | Plattform | Beschreibung |
+|-------|-----------|--------------|
+| `configs/steve_remap.kbd` | Linux | Hauptkonfiguration für Linux |
+| `configs/steve_remap_win.kbd` | Windows | Windows-Version mit AltGr-Fix |
 
 ## Konfigurationsübersicht
 
@@ -50,6 +58,16 @@ Das Script `start_kanata.sh` startet Kanata mit der Konfigurationsdatei `configs
 - `J + K + L` → `Enter`
 - `U + I + O` → `Tab`
 
+## Windows-Unterschiede
+
+Die Windows-Version (`steve_remap_win.kbd`) unterscheidet sich nur in **einer Zeile**, ist aber **zwangsläufig notwendig**:
+
+```kotlin
+windows-altgr cancel-lctl-press
+```
+
+**Warum?** Ohne diesen Fix sendet AltGr immer `Strg` mit, wodurch `Backspace` zu `Strg + Backspace` wird. Das betrifft nur Windows 11 und erfordert Kanata v1.12.0+.
+
 ## Installation
 
 ### Voraussetzungen
@@ -58,7 +76,7 @@ Das Script `start_kanata.sh` startet Kanata mit der Konfigurationsdatei `configs
 - Kanata v1.10.1 oder höher
 - Root-Rechte (für Tastatur-Intercept)
 
-### Setup
+### Setup (Linux)
 
 ```bash
 # Repository klonen
@@ -72,6 +90,12 @@ unzip linux-binaries-x64.zip -d ~/apps/kanata/
 # Berechtigungen setzen
 chmod +x start_kanata.sh
 ```
+
+### Setup (Windows)
+
+1. Kanata v1.12.0+ installieren
+2. `configs/steve_remap_win.kbd` verwenden
+3. Kanata mit dieser Konfiguration starten
 
 ## Verwendung
 
@@ -98,9 +122,10 @@ tail -f /var/log/kanata.log
 ```
 stevolution/
 ├── README.md              # Diese Datei
-├── start_kanata.sh        # Startscript für Kanata
+├── start_kanata.sh        # Startscript für Kanata (Linux)
 └── configs/
-    └── steve_remap.kbd    # Hauptkonfiguration
+    ├── steve_remap.kbd    # Linux-Konfiguration
+    └── steve_remap_win.kbd # Windows-Konfiguration (mit AltGr-Fix)
 ```
 
 ## Technische Details
@@ -128,4 +153,4 @@ Kanata interceptiert Tastendrücke auf Low-Level und ermöglicht:
 
 ## Lizenz
 
-N/A
+Keine Lizenz angegeben – frei für jeden verwendbar.
